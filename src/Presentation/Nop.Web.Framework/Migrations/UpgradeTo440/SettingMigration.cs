@@ -1,4 +1,5 @@
 ﻿using FluentMigrator;
+using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Configuration;
 using Nop.Core.Domain.Customers;
 using Nop.Core.Domain.Seo;
@@ -58,6 +59,68 @@ namespace Nop.Web.Framework.Migrations.UpgradeTo440
             {
                 seoSettings.ReservedUrlRecordSlugs.Add(newUrlRecord);
                 settingService.SaveSettingAsync(seoSettings).Wait();
+            }
+
+            //#276 AJAX filters
+            var catalogSettings = settingService.LoadSettingAsync<CatalogSettings>().Result;
+            if (!settingService.SettingExistsAsync(catalogSettings, settings => settings.UseAjaxCatalogProductsLoading).Result)
+            {
+                catalogSettings.UseAjaxCatalogProductsLoading = true;
+                settingService.SaveSettingAsync(catalogSettings).Wait();
+            }
+
+            if (!settingService.SettingExistsAsync(catalogSettings, settings => settings.EnableManufacturerFiltering).Result)
+            {
+                catalogSettings.EnableManufacturerFiltering = true;
+                settingService.SaveSettingAsync(catalogSettings).Wait();
+            }
+
+            if (!settingService.SettingExistsAsync(catalogSettings, settings => settings.SearchPagePriceRangeFiltering).Result)
+            {
+                catalogSettings.SearchPagePriceRangeFiltering = true;
+                settingService.SaveSettingAsync(catalogSettings).Wait();
+            }
+
+            if (!settingService.SettingExistsAsync(catalogSettings, settings => settings.SearchPagePriceFrom).Result)
+            {
+                catalogSettings.SearchPagePriceFrom = 0;
+                settingService.SaveSettingAsync(catalogSettings).Wait();
+            }
+
+            if (!settingService.SettingExistsAsync(catalogSettings, settings => settings.SearchPagePriceTo).Result)
+            {
+                catalogSettings.SearchPagePriceTo = 10000;
+                settingService.SaveSettingAsync(catalogSettings).Wait();
+            }
+
+            if (!settingService.SettingExistsAsync(catalogSettings, settings => settings.SearchPageAutomaticallyCalculatePriceRange).Result)
+            {
+                catalogSettings.SearchPageAutomaticallyCalculatePriceRange = true;
+                settingService.SaveSettingAsync(catalogSettings).Wait();
+            }
+
+            if (!settingService.SettingExistsAsync(catalogSettings, settings => settings.ProductsByTagPriceRangeFiltering).Result)
+            {
+                catalogSettings.ProductsByTagPriceRangeFiltering = true;
+                settingService.SaveSettingAsync(catalogSettings).Wait();
+            }
+
+            if (!settingService.SettingExistsAsync(catalogSettings, settings => settings.ProductsByTagPriceFrom).Result)
+            {
+                catalogSettings.ProductsByTagPriceFrom = 0;
+                settingService.SaveSettingAsync(catalogSettings).Wait();
+            }
+
+            if (!settingService.SettingExistsAsync(catalogSettings, settings => settings.ProductsByTagPriceTo).Result)
+            {
+                catalogSettings.ProductsByTagPriceTo = 10000;
+                settingService.SaveSettingAsync(catalogSettings).Wait();
+            }
+
+            if (!settingService.SettingExistsAsync(catalogSettings, settings => settings.ProductsByTagAutomaticallyCalculatePriceRange).Result)
+            {
+                catalogSettings.ProductsByTagAutomaticallyCalculatePriceRange = true;
+                settingService.SaveSettingAsync(catalogSettings).Wait();
             }
         }
 

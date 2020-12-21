@@ -703,7 +703,7 @@ namespace Nop.Services.Catalog
         /// <param name="pageIndex">Page index</param>
         /// <param name="pageSize">Page size</param>
         /// <param name="categoryIds">Category identifiers</param>
-        /// <param name="manufacturerId">Manufacturer identifier; 0 to load all records</param>
+        /// <param name="manufacturerIds">Manufacturer identifiers</param>
         /// <param name="storeId">Store identifier; 0 to load all records</param>
         /// <param name="vendorId">Vendor identifier; 0 to load all records</param>
         /// <param name="warehouseId">Warehouse identifier; 0 to load all records</param>
@@ -732,7 +732,7 @@ namespace Nop.Services.Catalog
             int pageIndex = 0,
             int pageSize = int.MaxValue,
             IList<int> categoryIds = null,
-            int manufacturerId = 0,
+            IList<int> manufacturerIds = null,
             int storeId = 0,
             int vendorId = 0,
             int warehouseId = 0,
@@ -754,7 +754,7 @@ namespace Nop.Services.Catalog
             bool? overridePublished = null)
         {
             var (products, _) = await SearchProductsAsync(false,
-                pageIndex, pageSize, categoryIds, manufacturerId,
+                pageIndex, pageSize, categoryIds, manufacturerIds,
                 storeId, vendorId, warehouseId,
                 productType, visibleIndividuallyOnly, excludeFeaturedProducts,
                 priceMin, priceMax, productTagId, keywords, searchDescriptions, searchManufacturerPartNumber, searchSku,
@@ -771,7 +771,7 @@ namespace Nop.Services.Catalog
         /// <param name="pageIndex">Page index</param>
         /// <param name="pageSize">Page size</param>
         /// <param name="categoryIds">Category identifiers</param>
-        /// <param name="manufacturerId">Manufacturer identifier; 0 to load all records</param>
+        /// <param name="manufacturerIds">Manufacturer identifiers</param>
         /// <param name="storeId">Store identifier; 0 to load all records</param>
         /// <param name="vendorId">Vendor identifier; 0 to load all records</param>
         /// <param name="warehouseId">Warehouse identifier; 0 to load all records</param>
@@ -801,7 +801,7 @@ namespace Nop.Services.Catalog
             int pageIndex = 0,
             int pageSize = int.MaxValue,
             IList<int> categoryIds = null,
-            int manufacturerId = 0,
+            IList<int> manufacturerIds = null,
             int storeId = 0,
             int vendorId = 0,
             int warehouseId = 0,
@@ -823,8 +823,12 @@ namespace Nop.Services.Catalog
             bool? overridePublished = null)
         {
             //validate "categoryIds" parameter
-            if (categoryIds != null && categoryIds.Contains(0))
+            if (categoryIds?.Contains(0) == true)
                 categoryIds.Remove(0);
+
+            //validate "manufacturerIds" parameter
+            if (manufacturerIds?.Contains(0) == true)
+                manufacturerIds.Remove(0);
 
             //pass specification identifiers as comma-delimited string
             var commaSeparatedSpecIds = string.Empty;
@@ -945,12 +949,12 @@ namespace Nop.Services.Catalog
                     select p;
             }
 
-            if (manufacturerId > 0)
+            if (manufacturerIds?.Count > 0)
             {
                 productsQuery =
                     from p in productsQuery
                     join pmm in _productManufacturerRepository.Table on p.Id equals pmm.ProductId
-                    where pmm.ManufacturerId == manufacturerId &&
+                    where manufacturerIds.Contains(pmm.ManufacturerId) &&
                         (!excludeFeaturedProducts || !pmm.IsFeaturedProduct)
                     select p;
             }

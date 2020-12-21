@@ -198,7 +198,10 @@ namespace Nop.Services.ExportImport
                 await xmlWriter.WriteStringAsync("PageSize", category.PageSize, await IgnoreExportCategoryPropertyAsync());
                 await xmlWriter.WriteStringAsync("AllowCustomersToSelectPageSize", category.AllowCustomersToSelectPageSize, await IgnoreExportCategoryPropertyAsync());
                 await xmlWriter.WriteStringAsync("PageSizeOptions", category.PageSizeOptions, await IgnoreExportCategoryPropertyAsync());
-                await xmlWriter.WriteStringAsync("PriceRanges", category.PriceRanges, await IgnoreExportCategoryPropertyAsync());
+                await xmlWriter.WriteStringAsync("PriceRangeFiltering", category.PriceRangeFiltering, await IgnoreExportCategoryPropertyAsync());
+                await xmlWriter.WriteStringAsync("PriceFrom", category.PriceFrom, await IgnoreExportCategoryPropertyAsync());
+                await xmlWriter.WriteStringAsync("PriceTo", category.PriceTo, await IgnoreExportCategoryPropertyAsync());
+                await xmlWriter.WriteStringAsync("AutomaticallyCalculatePriceRange", category.AutomaticallyCalculatePriceRange, await IgnoreExportCategoryPropertyAsync());
                 await xmlWriter.WriteStringAsync("ShowOnHomepage", category.ShowOnHomepage, await IgnoreExportCategoryPropertyAsync());
                 await xmlWriter.WriteStringAsync("IncludeInTopMenu", category.IncludeInTopMenu, await IgnoreExportCategoryPropertyAsync());
                 await xmlWriter.WriteStringAsync("Published", category.Published, await IgnoreExportCategoryPropertyAsync());
@@ -731,7 +734,6 @@ namespace Nop.Services.ExportImport
                 await xmlWriter.WriteStringAsync("PageSize", manufacturer.PageSize, await IgnoreExportManufacturerPropertyAsync());
                 await xmlWriter.WriteStringAsync("AllowCustomersToSelectPageSize", manufacturer.AllowCustomersToSelectPageSize, await IgnoreExportManufacturerPropertyAsync());
                 await xmlWriter.WriteStringAsync("PageSizeOptions", manufacturer.PageSizeOptions, await IgnoreExportManufacturerPropertyAsync());
-                await xmlWriter.WriteStringAsync("PriceRanges", manufacturer.PriceRanges, await IgnoreExportManufacturerPropertyAsync());
                 await xmlWriter.WriteStringAsync("Published", manufacturer.Published, await IgnoreExportManufacturerPropertyAsync());
                 await xmlWriter.WriteStringAsync("Deleted", manufacturer.Deleted, true);
                 await xmlWriter.WriteStringAsync("DisplayOrder", manufacturer.DisplayOrder);
@@ -790,7 +792,6 @@ namespace Nop.Services.ExportImport
                 new PropertyByName<Manufacturer>("PageSize", p => p.PageSize, await IgnoreExportManufacturerPropertyAsync()),
                 new PropertyByName<Manufacturer>("AllowCustomersToSelectPageSize", p => p.AllowCustomersToSelectPageSize, await IgnoreExportManufacturerPropertyAsync()),
                 new PropertyByName<Manufacturer>("PageSizeOptions", p => p.PageSizeOptions, await IgnoreExportManufacturerPropertyAsync()),
-                new PropertyByName<Manufacturer>("PriceRanges", p => p.PriceRanges, await IgnoreExportManufacturerPropertyAsync()),
                 new PropertyByName<Manufacturer>("Published", p => p.Published, await IgnoreExportManufacturerPropertyAsync()),
                 new PropertyByName<Manufacturer>("DisplayOrder", p => p.DisplayOrder)
             }, _catalogSettings);
@@ -857,7 +858,6 @@ namespace Nop.Services.ExportImport
                 new PropertyByName<Category>("PageSize", p => p.PageSize, await IgnoreExportCategoryPropertyAsync()),
                 new PropertyByName<Category>("AllowCustomersToSelectPageSize", p => p.AllowCustomersToSelectPageSize, await IgnoreExportCategoryPropertyAsync()),
                 new PropertyByName<Category>("PageSizeOptions", p => p.PageSizeOptions, await IgnoreExportCategoryPropertyAsync()),
-                new PropertyByName<Category>("PriceRanges", p => p.PriceRanges, await IgnoreExportCategoryPropertyAsync()),
                 new PropertyByName<Category>("ShowOnHomepage", p => p.ShowOnHomepage, await IgnoreExportCategoryPropertyAsync()),
                 new PropertyByName<Category>("IncludeInTopMenu", p => p.IncludeInTopMenu, await IgnoreExportCategoryPropertyAsync()),
                 new PropertyByName<Category>("Published", p => p.Published, await IgnoreExportCategoryPropertyAsync()),
